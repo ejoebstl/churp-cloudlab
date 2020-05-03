@@ -1,5 +1,7 @@
 #!/bin/bash
 
+chmod +x *.sh
+
 . ./setup.sh
 
 if [[ "$MY_INDEX" -eq 0 ]]; then
