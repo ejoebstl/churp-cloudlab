@@ -39,10 +39,11 @@ for n in range(1, N + 1):
     nodes += [requestContainer('node' + str(n))]
     nodeNames += ['node' + str(n)]
 
-# Setup node task
-envSetup(bulletin, 0)
-bulletin.docker_cmd = "./runBulletin.sh"
+# Setup bulletin task
+envSetup(nodes[0], 0)
+nodes[0].docker_cmd = "./runBulletin.sh"
 
+# Setup nodes task
 for n in range(1, N + 1):
     envSetup(nodes[n], n)
     nodes[n].docker_cmd = "./runNode.sh"
