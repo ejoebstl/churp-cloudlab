@@ -13,20 +13,13 @@ pc = portal.Context()
 # Create a Request object to start building the RSpec.
 request = pc.makeRequestRSpec()
 
-# All in one network.
-network = request.LAN("network0")
-
 # Helpers for configuring each docker container
 def requestContainer(name):
-    node = request.DockerContainer(name)
-    #node.docker_extimage = 'ejoebstl/churp-cloudlab'
-    node.docker_dockerfile = 'https://raw.githubusercontent.com/ejoebstl/churp-cloudlab/master/Dockerfile.proxy'
-    iface = node.addInterface("if1")
-    network.addInterface(iface)
+    node = request.XenVM(name)
     return node
 
 def envSetup(node, id):
-    node.docker_env = "PORT={}\nMY_INDEX={}\nNODES={}\nDEGREE={}".format(PORT, id, ";".join(nodeNames), D)
+    node.docker_env = "PORT={} MY_INDEX={} NODES={} DEGREE={}".format(PORT, id, ";".join(nodeNames), D)
 
 # Create Nodes
 nodes = [requestContainer('bulletin')]
@@ -36,13 +29,15 @@ for n in range(1, N + 1):
     nodes += [requestContainer('node' + str(n))]
     nodeNames += ['node' + str(n)]
 
+request.Link(members=nodes)
+
 # Setup bulletin task
 envSetup(nodes[0], 0)
-nodes[0].docker_cmd = "./runBulletin.sh"
+nodes[0].addService(pg.Execute(shell="sh", command="PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh".format(PORT, 0, ";".join(nodeNames), D)))
 
 # Setup nodes task
 for n in range(1, N + 1):
     envSetup(nodes[n], n)
-    nodes[n].docker_cmd = "./runNode.sh"
+    nodes[n].addService(pg.Execute(shell="sh", command="PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh".format(PORT, n, ";".join(nodeNames), D)))
 
 pc.printRequestRSpec(request)

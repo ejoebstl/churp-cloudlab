@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo "Building Churp..."
+
+./installChurp.sh
+
+echo "Churp installed."
+
 if [ -z "${NODES}" ]; then
     echo "NODES variable needs to be defined."
     exit 1

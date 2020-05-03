@@ -7,4 +7,4 @@ if [[ "$MY_INDEX" -eq 0 ]]; then
     exit 0
 fi
 
-./node.exe -l $MY_INDEX -c $NODE_COUNT -d $DEGREE -path $IP_PATH
+CHURP/src/node.exe -l $MY_INDEX -c $NODE_COUNT -d $DEGREE -path $IP_PATH
