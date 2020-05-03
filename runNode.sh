@@ -7,4 +7,4 @@ if [[ "$MY_INDEX" -eq 0 ]]; then
     exit 0
 fi
 
-CHURP/src/node.exe -l $MY_INDEX -c $NODE_COUNT -d $DEGREE -path $IP_PATH
+LD_LIBRARY_PATH=/usr/local/lib CHURP/src/node.exe -l $MY_INDEX -c $NODE_COUNT -d $DEGREE -path $IP_PATH

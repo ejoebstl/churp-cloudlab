@@ -18,9 +18,6 @@ def requestContainer(name):
     node = request.XenVM(name)
     return node
 
-def envSetup(node, id):
-    node.docker_env = "PORT={} MY_INDEX={} NODES={} DEGREE={}".format(PORT, id, ";".join(nodeNames), D)
-
 # Create Nodes
 nodes = [requestContainer('bulletin')]
 nodeNames = ['bulletin']
@@ -32,12 +29,10 @@ for n in range(1, N + 1):
 request.Link(members=nodes)
 
 # Setup bulletin task
-envSetup(nodes[0], 0)
-nodes[0].addService(pg.Execute(shell="sh", command="PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh".format(PORT, 0, ";".join(nodeNames), D)))
+nodes[0].addService(pg.Execute(shell="sh", command="PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh 2>&1 > output.log".format(PORT, 0, ",".join(nodeNames), D)))
 
 # Setup nodes task
 for n in range(1, N + 1):
-    envSetup(nodes[n], n)
-    nodes[n].addService(pg.Execute(shell="sh", command="PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh".format(PORT, n, ";".join(nodeNames), D)))
+    nodes[n].addService(pg.Execute(shell="sh", command="PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh 2>&1 > output.log".format(PORT, n, ",".join(nodeNames), D)))
 
 pc.printRequestRSpec(request)

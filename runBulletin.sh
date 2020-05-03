@@ -14,7 +14,7 @@ pid=$!
 sleep 10
 
 # Do something (in this case trigger clock signal)
-CHURP/src/clock.exe -path $IP_PATH
+LD_LIBRARY_PATH=/usr/local/lib CHURP/src/clock.exe -path $IP_PATH
 
 # Wait until finish
 wait $pid

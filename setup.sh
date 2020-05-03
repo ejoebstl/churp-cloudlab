@@ -2,6 +2,7 @@
 
 echo "Building Churp..."
 
+## You dont need this when running on docker.
 ./installChurp.sh
 
 echo "Churp installed."
@@ -34,7 +35,7 @@ if [ -d "ip_list" ]; then
   rm ip_list
 fi
 
-echo $NODES | sed "s/;/\n/g" | sed "s/$/:${PORT}/" > ip_list
+echo $NODES | sed "s/,/\n/g" | sed "s/$/:${PORT}/" > ip_list
 
 export IP_PATH=$(pwd)
 IP_LENGTH=$(wc -l < ip_list)
