@@ -5,8 +5,7 @@ sudo apt-get update
 sudo apt-get install -y libgmp-dev flex bison
 
 # Install GO. We need at lest version 1.14
-curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
-source ~/.bash_profile
+curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && sudo ./go_installer && rm go_installer
 
 # Install pbc dependency
 wget https://crypto.stanford.edu/pbc/files/pbc-0.5.14.tar.gz
