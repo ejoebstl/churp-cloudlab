@@ -13,11 +13,10 @@ pc = portal.Context()
 # Create a Request object to start building the RSpec.
 request = pc.makeRequestRSpec()
 
-''' Networking '''
+# All in one network.
+network = request.LAN("network0")
 
-networks = request.LAN("network0")
-
-# Helper for configuring each docker container
+# Helpers for configuring each docker container
 def requestContainer(name):
     node = request.DockerContainer(name)
     node.docker_extimage = 'ejoebstl/churp-cloudlab'
@@ -31,8 +30,6 @@ def envSetup(node, id):
     NODES=%s
     DEGREE=%d
     """.format(PORT, id, nodeNames, D)
-
-''' Node Creation '''
 
 # Create Nodes
 nodes = [requestContainer('bulletin')]
