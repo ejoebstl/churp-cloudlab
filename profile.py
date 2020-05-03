@@ -3,7 +3,7 @@
 import geni.portal as portal
 import geni.rspec.pg as pg
 
-N = 64 # NODE COUNT
+N = 5 # NODE COUNT
 D = 2 # DEGREE PARAMETER
 PORT = 9090
 
