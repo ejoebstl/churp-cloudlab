@@ -9,3 +9,5 @@ You can also modify the Churp code if needed, and then change the repository in 
 To change the count of simulated nodes, please adjust `profile.py`.
 
 Please take care when editing any of the other files, the paths/permissions/environment are a bit fragile.
+
+You will find build & runtime output at `/local/repository/output.log`.
