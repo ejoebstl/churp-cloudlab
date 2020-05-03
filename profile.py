@@ -19,7 +19,7 @@ network = request.LAN("network0")
 # Helpers for configuring each docker container
 def requestContainer(name):
     node = request.DockerContainer(name)
-    node.docker_dockerfile = 'https://github.com/ejoebstl/churp-cloudlab/Dockerfile'
+    node.docker_dockerfile = 'https://raw.githubusercontent.com/ejoebstl/churp-cloudlab/master/Dockerfile'
     iface = node.addInterface("if1")
     network.addInterface(iface)
     return node
