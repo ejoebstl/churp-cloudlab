@@ -29,10 +29,10 @@ for n in range(1, N + 1):
 request.Link(members=nodes)
 
 # Setup bulletin task
-nodes[0].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh 2>&1 > output.log".format(PORT, 0, ",".join(nodeNames), D)))
+nodes[0].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh > output.log 2>&1".format(PORT, 0, ",".join(nodeNames), D)))
 
 # Setup nodes task
 for n in range(1, N + 1):
-    nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh 2>&1 > output.log".format(PORT, n, ",".join(nodeNames), D)))
+    nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh > output.log 2>&1".format(PORT, n, ",".join(nodeNames), D)))
 
 pc.printRequestRSpec(request)
