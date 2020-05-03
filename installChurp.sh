@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO: I think this script would be less messy, if our
+# executing user had a (writable) home directory from the start.
+
 # Base dependencies
 sudo apt-get update
 sudo apt-get install -y libgmp-dev flex bison
