@@ -9,11 +9,13 @@ if [[ "$MY_INDEX" -ne 0 ]]; then
     exit 0
 fi
 
-CHURP/src/bb.exe -c $NODE_COUNT -d $DEGREE -path $IP_PATH &
+LD_LIBRARY_PATH=/usr/local/lib CHURP/src/bb.exe -c $NODE_COUNT -d $DEGREE -path $IP_PATH &
 pid=$!
 
 # Wait a bit (give all clients time to start)
-sleep 10
+echo "Waiting a bit before triggering clock"
+sleep 60
+echo "Triggering clock"
 
 # Do something (in this case trigger clock signal)
 LD_LIBRARY_PATH=/usr/local/lib CHURP/src/clock.exe -path $IP_PATH
