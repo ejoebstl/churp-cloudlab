@@ -22,7 +22,7 @@ git clone https://github.com/CHURPTeam/CHURP.git
 cd CHURP/src/
 
 # Need to run make as root because permissions are somehow messed up.
-# Also need to manually add go to path.
-sudo bash -c "export PATH=/usr/local/go/bin:$PATH && make"
+# Also need to manually add go to path, and define a home directory so go can cache.
+sudo bash -c "export PATH=/usr/local/go/bin:$PATH && export HOME=/local/repository && make"
 
 cd ../../
