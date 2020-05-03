@@ -22,9 +22,10 @@ def requestContainer(name):
     node.docker_extimage = 'ejoebstl/churp-cloudlab'
     iface = node.addInterface("if1")
     network.addInterface(iface)
+    return node
 
 def envSetup(node, id):
-    node.docker.env = """
+    node.docker_env = """
     PORT=%d
     MY_INDEX=%d
     NODES=%s
