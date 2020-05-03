@@ -9,7 +9,7 @@ curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer &
 
 # Manually add GO to math.
 export GOPATH=/usr/local/go
-export PATH=PATH:/usr/local/go
+export PATH=/usr/local/go:$PATH
 
 # Install pbc dependency
 wget https://crypto.stanford.edu/pbc/files/pbc-0.5.14.tar.gz
