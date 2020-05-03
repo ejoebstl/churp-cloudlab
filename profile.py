@@ -25,12 +25,7 @@ def requestContainer(name):
     return node
 
 def envSetup(node, id):
-    node.docker_env = """
-    PORT=%d
-    MY_INDEX=%d
-    NODES=%s
-    DEGREE=%d
-    """.format(PORT, id, nodeNames, D)
+    node.docker_env = "PORT={} MY_INDEX={} NODES={} DEGREE={}".format(PORT, id, nodeNames, D)
 
 # Create Nodes
 nodes = [requestContainer('bulletin')]
