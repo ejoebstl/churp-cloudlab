@@ -7,10 +7,6 @@ sudo apt-get install -y libgmp-dev flex bison
 # Install GO. We need at lest version 1.14
 curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && sudo ./go_installer && rm go_installer
 
-# Manually add GO to math.
-export GOPATH=/usr/local/go
-export PATH=/usr/local/go:$PATH
-
 # Install pbc dependency
 wget https://crypto.stanford.edu/pbc/files/pbc-0.5.14.tar.gz
 tar xvzf pbc-0.5.14.tar.gz
@@ -26,6 +22,7 @@ git clone https://github.com/CHURPTeam/CHURP.git
 cd CHURP/src/
 
 # Need to run make as root because permissions are somehow messed up.
-sudo make
+# Also need to manually add go to path.
+sudo bash -c "export PATH=/usr/local/go/bin:$PATH && make"
 
 cd ../../
