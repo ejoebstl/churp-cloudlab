@@ -3,7 +3,8 @@
 import geni.portal as portal
 import geni.rspec.pg as pg
 
-N = 64 # CONFIGURE
+N = 64 # NODE COUNT
+D = 2 # DEGREE PARAMETER
 PORT = 9090
 
 # Create a portal context.
@@ -14,47 +15,39 @@ request = pc.makeRequestRSpec()
 
 ''' Networking '''
 
-network = request.LAN("network0")
+networks = request.LAN("network0")
 
+# Helper for configuring each docker container
 def requestContainer(name):
     node = request.DockerContainer(name)
     node.docker_extimage = 'ejoebstl/churp-cloudlab'
     iface = node.addInterface("if1")
     network.addInterface(iface)
 
+def envSetup(node, id):
+    node.docker.env = """
+    PORT=%d
+    MY_INDEX=%d
+    NODES=%s
+    DEGREE=%d
+    """.format(PORT, id, nodeNames, D)
+
 ''' Node Creation '''
 
 # Create Nodes
-nodes = []
-for n in range(0, N):
+nodes = [requestContainer('bulletin')]
+nodeNames = ['bulletin']
+
+for n in range(1, N + 1):
     nodes += [requestContainer('node' + str(n))]
+    nodeNames += ['node' + str(n)]
 
-bulletin = requestContainer('bulletin' + str(n))
+# Setup node task
+envSetup(bulletin, 0)
+bulletin.docker_cmd = "./runBulletin.sh"
 
-# print bulletin.name
-
-# ''' VM SETUP '''
-
-# # Node Execute Scripts
-# for n in range(0, M):
-
-#     node = nodes[n]
-
-#     output = "/local/repository/startup_output.txt"
-
-#     nodehost = 'node' + str(n)
-
-#     i = 0
-#     if n >= N:
-#         i = 1
-#     j = n % N
-
-#     # TODO
-#     node.addService(pg.Execute(shell="sh", command="/local/repository/node.sh " + str(n) + ' ' + str(j) + ' ' + nodehost  + ' ' +  NSHOST + ' ' + str(NSPORT) + '>> ' + output))
-
-# # Bulletin Execute Scripts
-# bulletin.addService(pg.Execute(shell="sh", command="/local/repository/bulletin.sh" +  ' ' + NSHOST + ' ' + str(NSPORT) + '>> ' + output))
-
-# ''' Print Resulting RSpec '''
+for n in range(1, N + 1):
+    envSetup(nodes[n], n)
+    nodes[n].docker_cmd = "./runNode.sh"
 
 pc.printRequestRSpec(request)
