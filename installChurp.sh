@@ -20,7 +20,7 @@ sudo make install
 cd ..
 
 # CHURP
-git clone https://github.com/CHURPTeam/CHURP.git
+git clone https://github.com/ejoebstl/CHURP.git
 
 cd CHURP/src/
 
