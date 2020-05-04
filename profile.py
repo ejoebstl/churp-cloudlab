@@ -3,8 +3,8 @@
 import geni.portal as portal
 import geni.rspec.pg as pg
 
-N = 4 # NODE COUNT
-D = 2 # DEGREE PARAMETER
+N = 16 # NODE COUNT
+D = 8 # DEGREE PARAMETER
 PORT = 9090
 
 # Create a portal context.
