@@ -14,7 +14,7 @@ pid=$!
 
 # Wait a bit (give all clients time to start)
 echo "Waiting a bit before triggering clock"
-sleep 60
+sleep 300
 echo "Triggering clock"
 
 # Do something (in this case trigger clock signal)
