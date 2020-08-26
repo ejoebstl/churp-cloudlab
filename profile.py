@@ -3,9 +3,16 @@
 import geni.portal as portal
 import geni.rspec.pg as pg
 
-N = 64 # NODE COUNT
-D = 32 # DEGREE PARAMETER
+# Describe the parameter(s) this profile script can accept.
+portal.context.defineParameter( "N", "Number of VMs", portal.ParameterType.INTEGER, 4)
+
+# Retrieve the values the user specifies during instantiation.
+params = portal.context.bindParameters()
+
+N = params.N # NODE COUNT
+D = int(N/2) # DEGREE PARAMETER
 PORT = 9090
+SITES = 2
 
 # Create a portal context.
 pc = portal.Context()
@@ -34,5 +41,11 @@ nodes[0].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT
 # Setup nodes task
 for n in range(1, N + 1):
     nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh > output.log 2>&1".format(PORT, n, ",".join(nodeNames), D)))
+
+
+# Set node sites
+for n in range(N + 1):
+    nodes[n].Site('Site' + str(n % SITES + 1))
+    
 
 pc.printRequestRSpec(request)
