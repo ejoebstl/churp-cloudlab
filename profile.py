@@ -22,7 +22,7 @@ request = pc.makeRequestRSpec()
 
 # Helpers for configuring each docker container
 def requestContainer(name):
-    node = request.XenVM(name)
+    node = request.RawPC(name)
     return node
 
 # Create Nodes
