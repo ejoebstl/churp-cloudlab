@@ -12,7 +12,7 @@ params = portal.context.bindParameters()
 
 N = params.N # NODE COUNT
 D = int(N/2) # DEGREE PARAMETER
-PORT = 9090
+PORT = 50050
 SITES = params.SITES
 
 # Create a portal context.
