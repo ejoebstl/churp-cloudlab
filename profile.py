@@ -27,24 +27,24 @@ def requestContainer(name):
 
 # Create Nodes
 nodes = [requestContainer('bulletin')] # Bulletin
-nodeNames = ['192.168.1.1']
+nodeips = ['192.168.1.254']
 
 for n in range(1, N + 1):
     nodes += [requestContainer('node' + str(n))]
-    nodeNames += ['192.168.1.' + str(n + 1)]
+    nodeips += ['192.168.1.' + str(n)]
 
 #request.Link(members=nodes) # TRY LAN
 
 # Setup bulletin task
-nodes[0].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh > output.log 2>&1".format(PORT, 0, ",".join(nodeNames), D)))
+nodes[0].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh > output.log 2>&1".format(PORT, 0, ",".join(nodeips), D)))
 
 # Setup nodes task
 for n in range(1, N + 1):
-    nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh > output.log 2>&1".format(PORT, n, ",".join(nodeNames), D)))
+    nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh > output.log 2>&1".format(PORT, n, ",".join(nodeips), D)))
 
 
 # Set node sites
-for i in range(N + 1):
+for i in range(1, N + 1):
     nodes[i].Site('Site' + str(i % SITES + 1))
 
 
@@ -58,7 +58,7 @@ for i in range(N + 1):
 
     # Node networking
     iface = node.addInterface("eth1")
-    iface.addAddress(pg.IPv4Address("192.168.1." + str(n + 1), "255.255.255.0"))
+    iface.addAddress(pg.IPv4Address(nodeips[i], "255.255.255.0"))
     ifaces.append(iface)
 
 lan = request.LAN("lan")
