@@ -45,7 +45,7 @@ for n in range(1, N + 1):
 
 
 # Set node sites
-for i in range(1, N + 1):
+for i in range(N + 1):
     nodes[i].Site('Site' + str(i % SITES + 1))
 
 
