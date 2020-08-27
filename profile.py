@@ -26,11 +26,11 @@ def requestContainer(name):
     return node
 
 # Create Nodes
-nodes = [requestContainer('192.168.1.0')] # Bulletin
+nodes = [requestContainer('bulletin')] # Bulletin
 nodeNames = ['192.168.1.0']
 
 for n in range(1, N + 1):
-    nodes += [requestContainer('192.168.1.' + str(n))]
+    nodes += [requestContainer('node' + str(n))]
     nodeNames += ['192.168.1.' + str(n)]
 
 #request.Link(members=nodes) # TRY LAN
