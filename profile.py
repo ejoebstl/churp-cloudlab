@@ -27,11 +27,11 @@ def requestContainer(name):
 
 # Create Nodes
 nodes = [requestContainer('bulletin')] # Bulletin
-nodeNames = ['192.168.1.0']
+nodeNames = ['192.168.1.1']
 
 for n in range(1, N + 1):
     nodes += [requestContainer('node' + str(n))]
-    nodeNames += ['192.168.1.' + str(n)]
+    nodeNames += ['192.168.1.' + str(n + 1)]
 
 #request.Link(members=nodes) # TRY LAN
 
@@ -58,7 +58,7 @@ for i in range(N + 1):
 
     # Node networking
     iface = node.addInterface("eth1")
-    iface.addAddress(pg.IPv4Address("192.168.1." + str(n), "255.255.255.0"))
+    iface.addAddress(pg.IPv4Address("192.168.1." + str(n + 1), "255.255.255.0"))
     ifaces.append(iface)
 
 lan = request.LAN("lan")
