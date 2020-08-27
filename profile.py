@@ -26,14 +26,14 @@ def requestContainer(name):
     return node
 
 # Create Nodes
-nodes = [requestContainer('bulletin')]
-nodeNames = ['bulletin']
+nodes = [requestContainer('192.168.1.0')] # Bulletin
+nodeNames = ['192.168.1.0']
 
 for n in range(1, N + 1):
-    nodes += [requestContainer('node' + str(n))]
-    nodeNames += ['node' + str(n)]
+    nodes += [requestContainer('192.168.1.' + str(n))]
+    nodeNames += ['192.168.1.' + str(n)]
 
-request.Link(members=nodes)
+#request.Link(members=nodes) # TRY LAN
 
 # Setup bulletin task
 nodes[0].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runBulletin.sh > output.log 2>&1".format(PORT, 0, ",".join(nodeNames), D)))
@@ -44,8 +44,29 @@ for n in range(1, N + 1):
 
 
 # Set node sites
-for n in range(N + 1):
-    nodes[n].Site('Site' + str(n % SITES + 1))
+for i in range(N + 1):
+    nodes[i].Site('Site' + str(n % SITES + 1))
+
+
+''' Networking '''
+
+# Create an array for interfaces
+ifaces = []
+
+for i in range(N + 1):
+    node = nodes[i]
+
+    # Node networking
+    iface = node.addInterface("eth1")
+    iface.addAddress(pg.IPv4Address("192.168.1." + str(n), "255.255.255.0"))
+    ifaces.append(iface)
+
+lan = request.LAN("lan")
+lan.bandwidth=100000
+
+for iface in ifaces:
+    lan.addInterface(iface)
+
     
 
 pc.printRequestRSpec(request)
