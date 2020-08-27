@@ -5,6 +5,7 @@ import geni.rspec.pg as pg
 
 # Describe the parameter(s) this profile script can accept.
 portal.context.defineParameter( "N", "Number of VMs", portal.ParameterType.INTEGER, 4)
+portal.context.defineParameter( "SITES", "Number of SITES", portal.ParameterType.INTEGER, 2)
 
 # Retrieve the values the user specifies during instantiation.
 params = portal.context.bindParameters()
@@ -12,7 +13,7 @@ params = portal.context.bindParameters()
 N = params.N # NODE COUNT
 D = int(N/2) # DEGREE PARAMETER
 PORT = 9090
-SITES = 2
+SITES = params.SITES
 
 # Create a portal context.
 pc = portal.Context()
