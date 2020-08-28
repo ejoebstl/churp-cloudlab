@@ -12,7 +12,7 @@ curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer &
 
 # Alternate go install
 sudo apt -y install golang-go
-#sudo apt -y install gccgo-go 
+sudo apt -y install gccgo-go 
 
 # Install pbc dependency
 wget https://crypto.stanford.edu/pbc/files/pbc-0.5.14.tar.gz
