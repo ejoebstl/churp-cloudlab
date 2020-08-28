@@ -33,32 +33,7 @@ request = pc.makeRequestRSpec()
 
 # Create an array for interfaces
 ifaces = []
-
 nodeips = []
-
-
-''' Node Setup '''
-
-nodes = []
-for n in range(0, N):
-
-    # Create node
-    node = request.RawPC(node_prefix + str(n))
-
-    # Node script directories
-    node_startup = "/local/repository/node.sh"
-    node_output = "/local/repository/startup_output.txt"
-
-    # Set node site
-    node.Site("Site" + str(n % SITES + 1))
-
-    # Node networking
-    iface = node.addInterface("eth1")
-    iface.addAddress(pg.IPv4Address("192.168.1." + str(n + 1), "255.255.255.0"))
-    ifaces.append(iface)
-    nodeips += ['192.168.1.' + str(n + 1)]
-
-    nodes += [node]
 
 
 ''' Bulletin Setup '''
@@ -80,6 +55,29 @@ ifaces.append(iface)
 nodeips += ['192.168.1.254']
 
 
+''' Node Setup '''
+
+nodes = []
+for n in range(N):
+
+    # Create node
+    node = request.RawPC(node_prefix + str(n + 1))
+
+    # Node script directories
+    node_startup = "/local/repository/node.sh"
+    node_output = "/local/repository/startup_output.txt"
+
+    # Set node site
+    node.Site("Site" + str(n % SITES + 1))
+
+    # Node networking
+    iface = node.addInterface("eth1")
+    iface.addAddress(pg.IPv4Address("192.168.1." + str(n + 1), "255.255.255.0"))
+    ifaces.append(iface)
+    nodeips += ['192.168.1.' + str(n + 1)]
+
+    nodes += [node]
+
 ''' Networking Setup '''
 
 #request.Link(members=(nodes + [bulletin]))
@@ -99,7 +97,8 @@ bulletin.addService(pg.Execute(shell="sh", command="cd /local/repository && PORT
 
 # Setup nodes task
 for n in range(N):
-    nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh > output.log 2>&1".format(NPORT, n, ",".join(nodeips), D)))
+    nid = n + 1
+    nodes[n].addService(pg.Execute(shell="sh", command="cd /local/repository && PORT={} MY_INDEX={} NODES={} DEGREE={} bash ./runNode.sh > output.log 2>&1".format(NPORT, nid, ",".join(nodeips), D)))
 
 
 ''' Print Resulting RSpec '''
