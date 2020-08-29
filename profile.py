@@ -70,6 +70,9 @@ for n in range(N):
     # Set node site
     node.Site("Site" + str(n % SITES + 1))
 
+    if n % SITES + 1 == 2:
+        node.hardware_type = "m510" # m400 seems to have issues with churp
+
     # Node networking
     iface = node.addInterface("eth1")
     iface.addAddress(pg.IPv4Address("192.168.1." + str(n + 1), "255.255.255.0"))
