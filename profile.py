@@ -70,10 +70,10 @@ for n in range(N):
     # Set node site
     node.Site("Site" + str(n % SITES + 1))
 
-    if n % SITES + 1 == 2:
-        node.hardware_type = "m510" # m400 seems to have issues with churp
-    else:
-        node.hardware_type = "c220g2"
+    # if n % SITES + 1 == 2:
+    #     node.hardware_type = "m510" # m400 seems to have issues with churp
+    # else:
+    #     node.hardware_type = "c220g2"
 
     # Node networking
     iface = node.addInterface("eth1")
