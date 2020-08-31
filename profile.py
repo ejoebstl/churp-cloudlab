@@ -48,6 +48,8 @@ bulletin_output = "/local/repository/startup_output.txt"
 # Set bulletin site
 bulletin.Site("Site1")
 
+bulletin.hardware_type = 'm510'
+
 # Bulletin networking
 iface = bulletin.addInterface("eth1")
 iface.addAddress(pg.IPv4Address("192.168.1.254", "255.255.255.0"))
@@ -69,6 +71,8 @@ for n in range(N):
 
     # Set node site
     node.Site("Site" + str(n % SITES + 1))
+
+    node.hardware_type = 'm510'
 
     # if n % SITES + 1 == 2:
     #     node.hardware_type = "m510" # m400 seems to have issues with churp
